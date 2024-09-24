@@ -8,27 +8,17 @@ import java.util.List;
 /**
  * Handles web requests related to Pets.
  */
-@RestController
 @RequestMapping("/pet")
-public class PetController {
-
+public interface PetController {
     @PostMapping
-    public PetDTO savePet(@RequestBody PetDTO petDTO) {
-        throw new UnsupportedOperationException();
-    }
+    PetDTO savePet(@RequestBody PetDTO petDTO);
 
     @GetMapping("/{petId}")
-    public PetDTO getPet(@PathVariable long petId) {
-        throw new UnsupportedOperationException();
-    }
+    PetDTO getPet(@PathVariable long petId);
 
     @GetMapping
-    public List<PetDTO> getPets(){
-        throw new UnsupportedOperationException();
-    }
+    List<PetDTO> getPets();
 
     @GetMapping("/owner/{ownerId}")
-    public List<PetDTO> getPetsByOwner(@PathVariable long ownerId) {
-        throw new UnsupportedOperationException();
-    }
+    List<PetDTO> getPetsByOwner(@PathVariable long ownerId);
 }
