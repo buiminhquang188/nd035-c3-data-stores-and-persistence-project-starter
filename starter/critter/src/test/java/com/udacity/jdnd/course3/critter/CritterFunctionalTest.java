@@ -50,31 +50,42 @@ public class CritterFunctionalTest {
     @Test
     public void testCreateCustomer() {
         CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
-        CustomerDTO retrievedCustomer = userController.getAllCustomers()
-                .get(0);
-        Assertions.assertEquals(newCustomer.getName(), customerDTO.getName());
-        Assertions.assertEquals(newCustomer.getId(), retrievedCustomer.getId());
-        Assertions.assertTrue(retrievedCustomer.getId() > 0);
+        ResponseEntity<CustomerDTO> newCustomer = userController.saveCustomer(customerDTO);
+        ResponseEntity<List<CustomerDTO>> retrievedCustomer = userController.getAllCustomers();
+        Assertions.assertEquals(newCustomer.getBody()
+                .getName(), customerDTO.getName());
+        Assertions.assertEquals(newCustomer.getBody()
+                .getId(), retrievedCustomer.getBody()
+                .get(0)
+                .getId());
+        Assertions.assertTrue(retrievedCustomer.getBody()
+                                      .get(0)
+                                      .getId() > 0);
     }
 
     @Test
     public void testCreateEmployee() {
         EmployeeDTO employeeDTO = createEmployeeDTO();
-        EmployeeDTO newEmployee = userController.saveEmployee(employeeDTO);
-        EmployeeDTO retrievedEmployee = userController.getEmployee(newEmployee.getId());
-        Assertions.assertEquals(employeeDTO.getSkills(), newEmployee.getSkills());
-        Assertions.assertEquals(newEmployee.getId(), retrievedEmployee.getId());
-        Assertions.assertTrue(retrievedEmployee.getId() > 0);
+        ResponseEntity<EmployeeDTO> newEmployee = userController.saveEmployee(employeeDTO);
+        ResponseEntity<EmployeeDTO> retrievedEmployee = userController.getEmployee(newEmployee.getBody()
+                .getId());
+        Assertions.assertEquals(employeeDTO.getSkills(), newEmployee.getBody()
+                .getSkills());
+        Assertions.assertEquals(newEmployee.getBody()
+                .getId(), retrievedEmployee.getBody()
+                .getId());
+        Assertions.assertTrue(retrievedEmployee.getBody()
+                                      .getId() > 0);
     }
 
     @Test
     public void testAddPetsToCustomer() {
         CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        ResponseEntity<CustomerDTO> newCustomer = userController.saveCustomer(customerDTO);
 
         PetDTO petDTO = createPetDTO();
-        petDTO.setOwnerId(newCustomer.getId());
+        petDTO.setOwnerId(newCustomer.getBody()
+                .getId());
         ResponseEntity<PetDTO> newPet = petController.savePet(petDTO);
 
         //make sure pet contains customer id
@@ -84,10 +95,12 @@ public class CritterFunctionalTest {
                 .getId(), newPet.getBody()
                 .getId());
         Assertions.assertEquals(retrievedPet.getBody()
-                .getOwnerId(), newCustomer.getId());
+                .getOwnerId(), newCustomer.getBody()
+                .getId());
 
         //make sure you can retrieve pets by owner
-        ResponseEntity<List<PetDTO>> pets = petController.getPetsByOwner(newCustomer.getId());
+        ResponseEntity<List<PetDTO>> pets = petController.getPetsByOwner(newCustomer.getBody()
+                .getId());
         Assertions.assertEquals(newPet.getBody()
                 .getId(), pets.getBody()
                 .get(0)
@@ -99,6 +112,7 @@ public class CritterFunctionalTest {
 
         //check to make sure customer now also contains pet
         CustomerDTO retrievedCustomer = userController.getAllCustomers()
+                .getBody()
                 .get(0);
         Assertions.assertTrue(retrievedCustomer.getPetIds() != null && retrievedCustomer.getPetIds()
                                                                                .size() > 0);
@@ -110,21 +124,24 @@ public class CritterFunctionalTest {
     @Test
     public void testFindPetsByOwner() {
         CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        ResponseEntity<CustomerDTO> newCustomer = userController.saveCustomer(customerDTO);
 
         PetDTO petDTO = createPetDTO();
-        petDTO.setOwnerId(newCustomer.getId());
+        petDTO.setOwnerId(newCustomer.getBody()
+                .getId());
         ResponseEntity<PetDTO> newPet = petController.savePet(petDTO);
         petDTO.setType(PetType.DOG);
         petDTO.setName("DogName");
         ResponseEntity<PetDTO> newPet2 = petController.savePet(petDTO);
 
-        ResponseEntity<List<PetDTO>> pets = petController.getPetsByOwner(newCustomer.getId());
+        ResponseEntity<List<PetDTO>> pets = petController.getPetsByOwner(newCustomer.getBody()
+                .getId());
         Assertions.assertEquals(pets.getBody()
                 .size(), 2);
         Assertions.assertEquals(pets.getBody()
                 .get(0)
-                .getOwnerId(), newCustomer.getId());
+                .getOwnerId(), newCustomer.getBody()
+                .getId());
         Assertions.assertEquals(pets.getBody()
                 .get(0)
                 .getId(), newPet.getBody()
@@ -134,16 +151,20 @@ public class CritterFunctionalTest {
     @Test
     public void testFindOwnerByPet() {
         CustomerDTO customerDTO = createCustomerDTO();
-        CustomerDTO newCustomer = userController.saveCustomer(customerDTO);
+        ResponseEntity<CustomerDTO> newCustomer = userController.saveCustomer(customerDTO);
 
         PetDTO petDTO = createPetDTO();
-        petDTO.setOwnerId(newCustomer.getId());
+        petDTO.setOwnerId(newCustomer.getBody()
+                .getId());
         ResponseEntity<PetDTO> newPet = petController.savePet(petDTO);
 
-        CustomerDTO owner = userController.getOwnerByPet(newPet.getBody()
+        ResponseEntity<CustomerDTO> owner = userController.getOwnerByPet(newPet.getBody()
                 .getId());
-        Assertions.assertEquals(owner.getId(), newCustomer.getId());
-        Assertions.assertEquals(owner.getPetIds()
+        Assertions.assertEquals(owner.getBody()
+                .getId(), newCustomer.getBody()
+                .getId());
+        Assertions.assertEquals(owner.getBody()
+                .getPetIds()
                 .get(0), newPet.getBody()
                 .getId());
     }
@@ -151,14 +172,18 @@ public class CritterFunctionalTest {
     @Test
     public void testChangeEmployeeAvailability() {
         EmployeeDTO employeeDTO = createEmployeeDTO();
-        EmployeeDTO emp1 = userController.saveEmployee(employeeDTO);
-        Assertions.assertNull(emp1.getDaysAvailable());
+        ResponseEntity<EmployeeDTO> emp1 = userController.saveEmployee(employeeDTO);
+        Assertions.assertNull(emp1.getBody()
+                .getDaysAvailable());
 
         Set<DayOfWeek> availability = Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY);
-        userController.setAvailability(availability, emp1.getId());
+        userController.setAvailability(availability, emp1.getBody()
+                .getId());
 
-        EmployeeDTO emp2 = userController.getEmployee(emp1.getId());
-        Assertions.assertEquals(availability, emp2.getDaysAvailable());
+        ResponseEntity<EmployeeDTO> emp2 = userController.getEmployee(emp1.getBody()
+                .getId());
+        Assertions.assertEquals(availability, emp2.getBody()
+                .getDaysAvailable());
     }
 
     @Test
@@ -175,9 +200,9 @@ public class CritterFunctionalTest {
         emp2.setSkills(Sets.newHashSet(EmployeeSkill.PETTING, EmployeeSkill.WALKING));
         emp3.setSkills(Sets.newHashSet(EmployeeSkill.WALKING, EmployeeSkill.SHAVING));
 
-        EmployeeDTO emp1n = userController.saveEmployee(emp1);
-        EmployeeDTO emp2n = userController.saveEmployee(emp2);
-        EmployeeDTO emp3n = userController.saveEmployee(emp3);
+        ResponseEntity<EmployeeDTO> emp1n = userController.saveEmployee(emp1);
+        ResponseEntity<EmployeeDTO> emp2n = userController.saveEmployee(emp2);
+        ResponseEntity<EmployeeDTO> emp3n = userController.saveEmployee(emp3);
 
         //make a request that matches employee 1 or 2
         EmployeeRequestDTO er1 = new EmployeeRequestDTO();
@@ -185,10 +210,13 @@ public class CritterFunctionalTest {
         er1.setSkills(Sets.newHashSet(EmployeeSkill.PETTING));
 
         Set<Long> eIds1 = userController.findEmployeesForService(er1)
+                .getBody()
                 .stream()
                 .map(EmployeeDTO::getId)
                 .collect(Collectors.toSet());
-        Set<Long> eIds1expected = Sets.newHashSet(emp1n.getId(), emp2n.getId());
+        Set<Long> eIds1expected = Sets.newHashSet(emp1n.getBody()
+                .getId(), emp2n.getBody()
+                .getId());
         Assertions.assertEquals(eIds1, eIds1expected);
 
         //make a request that matches only employee 3
@@ -197,10 +225,12 @@ public class CritterFunctionalTest {
         er2.setSkills(Sets.newHashSet(EmployeeSkill.WALKING, EmployeeSkill.SHAVING));
 
         Set<Long> eIds2 = userController.findEmployeesForService(er2)
+                .getBody()
                 .stream()
                 .map(EmployeeDTO::getId)
                 .collect(Collectors.toSet());
-        Set<Long> eIds2expected = Sets.newHashSet(emp3n.getId());
+        Set<Long> eIds2expected = Sets.newHashSet(emp3n.getBody()
+                .getId());
         Assertions.assertEquals(eIds2, eIds2expected);
     }
 
@@ -208,16 +238,18 @@ public class CritterFunctionalTest {
     public void testSchedulePetsForServiceWithEmployee() {
         EmployeeDTO employeeTemp = createEmployeeDTO();
         employeeTemp.setDaysAvailable(Sets.newHashSet(DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY));
-        EmployeeDTO employeeDTO = userController.saveEmployee(employeeTemp);
-        CustomerDTO customerDTO = userController.saveCustomer(createCustomerDTO());
+        ResponseEntity<EmployeeDTO> employeeDTO = userController.saveEmployee(employeeTemp);
+        ResponseEntity<CustomerDTO> customerDTO = userController.saveCustomer(createCustomerDTO());
         PetDTO petTemp = createPetDTO();
-        petTemp.setOwnerId(customerDTO.getId());
+        petTemp.setOwnerId(customerDTO.getBody()
+                .getId());
         ResponseEntity<PetDTO> petDTO = petController.savePet(petTemp);
 
         LocalDate date = LocalDate.of(2019, 12, 25);
         List<Long> petList = Lists.newArrayList(petDTO.getBody()
                 .getId());
-        List<Long> employeeList = Lists.newArrayList(employeeDTO.getId());
+        List<Long> employeeList = Lists.newArrayList(employeeDTO.getBody()
+                .getId());
         Set<EmployeeSkill> skillSet = Sets.newHashSet(EmployeeSkill.PETTING);
 
         scheduleController.createSchedule(createScheduleDTO(petList, employeeList, date, skillSet));
@@ -274,12 +306,14 @@ public class CritterFunctionalTest {
         //Owner of the first pet will only be in schedule 1
         List<ScheduleDTO> scheds1c = scheduleController.getScheduleForCustomer(userController.getOwnerByPet(sched1.getPetIds()
                         .get(0))
+                .getBody()
                 .getId());
         compareSchedules(sched1, scheds1c.get(0));
 
         //Owner of pet from schedule 2 will be in both schedules 2 and 3
         List<ScheduleDTO> scheds2c = scheduleController.getScheduleForCustomer(userController.getOwnerByPet(sched2.getPetIds()
                         .get(0))
+                .getBody()
                 .getId());
         compareSchedules(sched2, scheds2c.get(0));
         compareSchedules(sched3, scheds2c.get(1));
@@ -330,14 +364,16 @@ public class CritterFunctionalTest {
                     e.setSkills(activities);
                     e.setDaysAvailable(Sets.newHashSet(date.getDayOfWeek()));
                     return userController.saveEmployee(e)
+                            .getBody()
                             .getId();
                 })
                 .collect(Collectors.toList());
-        CustomerDTO cust = userController.saveCustomer(createCustomerDTO());
+        ResponseEntity<CustomerDTO> cust = userController.saveCustomer(createCustomerDTO());
         List<Long> petIds = IntStream.range(0, numPets)
                 .mapToObj(i -> createPetDTO())
                 .map(p -> {
-                    p.setOwnerId(cust.getId());
+                    p.setOwnerId(cust.getBody()
+                            .getId());
                     return petController.savePet(p)
                             .getBody()
                             .getId();

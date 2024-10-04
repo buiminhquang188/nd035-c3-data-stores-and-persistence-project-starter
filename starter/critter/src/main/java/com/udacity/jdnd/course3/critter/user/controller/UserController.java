@@ -3,6 +3,7 @@ package com.udacity.jdnd.course3.critter.user.controller;
 import com.udacity.jdnd.course3.critter.user.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.dto.EmployeeRequestDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.DayOfWeek;
@@ -18,23 +19,23 @@ import java.util.Set;
 
 public interface UserController {
     @PostMapping("/customer")
-    CustomerDTO saveCustomer(@RequestBody CustomerDTO customerDTO);
+    ResponseEntity<CustomerDTO> saveCustomer(@RequestBody CustomerDTO customerDTO);
 
     @GetMapping("/customer")
-    List<CustomerDTO> getAllCustomers();
+    ResponseEntity<List<CustomerDTO>> getAllCustomers();
 
     @GetMapping("/customer/pet/{petId}")
-    CustomerDTO getOwnerByPet(@PathVariable long petId);
+    ResponseEntity<CustomerDTO> getOwnerByPet(@PathVariable long petId);
 
     @PostMapping("/employee")
-    EmployeeDTO saveEmployee(@RequestBody EmployeeDTO employeeDTO);
+    ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO);
 
     @PostMapping("/employee/{employeeId}")
-    EmployeeDTO getEmployee(@PathVariable long employeeId);
+    ResponseEntity<EmployeeDTO> getEmployee(@PathVariable long employeeId);
 
     @PutMapping("/employee/{employeeId}")
     void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId);
 
     @GetMapping("/employee/availability")
-    List<EmployeeDTO> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO);
+    ResponseEntity<List<EmployeeDTO>> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO);
 }
