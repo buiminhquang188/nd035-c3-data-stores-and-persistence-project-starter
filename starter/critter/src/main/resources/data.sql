@@ -10,8 +10,8 @@ VALUES (1, 'CAT'),
        (7, 'OTHER');
 
 INSERT INTO role(id, name)
-VALUES (1, 'Customer'),
-       (2, 'Employee');
+VALUES (1, 'CUSTOMER'),
+       (2, 'EMPLOYEE');
 
 INSERT INTO skill(id, name)
 VALUES (1, 'PETTING'),

@@ -1,6 +1,7 @@
 package com.udacity.jdnd.course3.critter.pet.controller;
 
 import com.udacity.jdnd.course3.critter.pet.dto.PetDTO;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,14 +12,14 @@ import java.util.List;
 @RequestMapping("/pet")
 public interface PetController {
     @PostMapping
-    PetDTO savePet(@RequestBody PetDTO petDTO);
+    ResponseEntity<PetDTO> savePet(@RequestBody PetDTO petDTO);
 
     @GetMapping("/{petId}")
-    PetDTO getPet(@PathVariable long petId);
+    ResponseEntity<PetDTO> getPet(@PathVariable Long petId);
 
     @GetMapping
-    List<PetDTO> getPets();
+    ResponseEntity<List<PetDTO>> getPets();
 
     @GetMapping("/owner/{ownerId}")
-    List<PetDTO> getPetsByOwner(@PathVariable long ownerId);
+    ResponseEntity<List<PetDTO>> getPetsByOwner(@PathVariable Long ownerId);
 }

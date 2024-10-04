@@ -7,8 +7,8 @@ import java.io.Serializable;
 @Embeddable
 public class IdSchedule implements Serializable {
     @Column(name = "pet_id")
-    private Integer petId;
+    private Long petId;
 
     @Column(name = "owner_id")
-    private Integer ownerId;
+    private Long ownerId;
 }

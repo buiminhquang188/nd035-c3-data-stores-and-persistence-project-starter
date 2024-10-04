@@ -10,7 +10,7 @@ spring:
     username: root
     password: admin123
     driver-class-name: com.mysql.cj.jdbc.Driver
-    initialization-mode: always
+    initialization-mode: embedded
   # uncomment the below lines to view sql output in console
   jpa:
     show-sql: true

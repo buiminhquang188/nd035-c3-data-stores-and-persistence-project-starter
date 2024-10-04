@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Embeddable
 public class IdUserSkill implements Serializable {
     @Column(name = "user_id")
-    private Integer userId;
+    private Long userId;
 
     @Column(name = "skill_id")
     private Integer skillId;

@@ -5,14 +5,14 @@ import com.udacity.jdnd.course3.critter.schedule.entity.ScheduleEntity;
 import com.udacity.jdnd.course3.critter.user.entity.UserEntity;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "pet")
 public class PetEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -21,7 +21,7 @@ public class PetEntity {
     private Byte age;
 
     @Column(name = "birth_date")
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
 
     @Column(name = "gender")
     @Enumerated(EnumType.STRING)
@@ -40,4 +40,76 @@ public class PetEntity {
 
     @OneToMany(mappedBy = "pet")
     private List<ScheduleEntity> schedules;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Byte getAge() {
+        return age;
+    }
+
+    public void setAge(Byte age) {
+        this.age = age;
+    }
+
+    public LocalDate getBirthDate() {
+        return birthDate;
+    }
+
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public GenderType getGender() {
+        return gender;
+    }
+
+    public void setGender(GenderType gender) {
+        this.gender = gender;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public PetTypeEntity getType() {
+        return type;
+    }
+
+    public void setType(PetTypeEntity type) {
+        this.type = type;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
+    public List<ScheduleEntity> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<ScheduleEntity> schedules) {
+        this.schedules = schedules;
+    }
 }

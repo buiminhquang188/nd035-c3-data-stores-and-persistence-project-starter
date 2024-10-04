@@ -1,27 +1,27 @@
 CREATE TABLE pet
 (
-    id          INT AUTO_INCREMENT NOT NULL,
-    name        VARCHAR(255)       NULL,
-    age         TINYINT            NULL,
-    birth_date  datetime           NULL,
-    gender      VARCHAR(255)       NULL,
-    notes       VARCHAR(255)       NULL,
-    pet_type_id INT                NULL,
-    user_id     INT                NULL,
+    id          BIGINT AUTO_INCREMENT NOT NULL,
+    name        VARCHAR(255) NULL,
+    age         TINYINT NULL,
+    birth_date  date NULL,
+    gender      VARCHAR(255) NULL,
+    notes       VARCHAR(255) NULL,
+    pet_type_id INT NULL,
+    user_id     BIGINT NULL,
     CONSTRAINT pk_pet PRIMARY KEY (id)
 );
 
 CREATE TABLE pet_type
 (
     id   INT AUTO_INCREMENT NOT NULL,
-    type VARCHAR(255)       NULL,
+    type VARCHAR(255) NULL,
     CONSTRAINT pk_pet_type PRIMARY KEY (id)
 );
 
 CREATE TABLE `role`
 (
     id   INT AUTO_INCREMENT NOT NULL,
-    name VARCHAR(255)       NULL,
+    name VARCHAR(255) NULL,
     CONSTRAINT pk_role PRIMARY KEY (id)
 );
 
@@ -29,34 +29,37 @@ CREATE TABLE schedule
 (
     start_time datetime NULL,
     end_time   datetime NULL,
-    pet_id     INT      NOT NULL,
-    owner_id   INT      NOT NULL,
+    pet_id     BIGINT NOT NULL,
+    owner_id   BIGINT NOT NULL,
     CONSTRAINT pk_schedule PRIMARY KEY (pet_id, owner_id)
 );
 
 CREATE TABLE skill
 (
-    id   INT          NOT NULL,
+    id   INT NOT NULL,
     name VARCHAR(255) NULL,
     CONSTRAINT pk_skill PRIMARY KEY (id)
 );
 
 CREATE TABLE user
 (
-    id           INT AUTO_INCREMENT NOT NULL,
-    name         VARCHAR(255)       NULL,
-    phone_number VARCHAR(255)       NULL,
-    notes        VARCHAR(255)       NULL,
-    role_id      INT                NULL,
+    id           BIGINT AUTO_INCREMENT NOT NULL,
+    name         VARCHAR(255) NULL,
+    phone_number VARCHAR(255) NULL,
+    notes        VARCHAR(255) NULL,
+    role_id      INT NULL,
     CONSTRAINT pk_user PRIMARY KEY (id)
 );
 
 CREATE TABLE user_skill
 (
-    user_id  INT NOT NULL,
-    skill_id INT NOT NULL,
+    user_id  BIGINT NOT NULL,
+    skill_id INT    NOT NULL,
     CONSTRAINT pk_user_skill PRIMARY KEY (user_id, skill_id)
 );
+
+ALTER TABLE pet_type
+    ADD CONSTRAINT uc_pet_type_type UNIQUE (type);
 
 ALTER TABLE pet
     ADD CONSTRAINT FK_PET_ON_PET_TYPE FOREIGN KEY (pet_type_id) REFERENCES pet_type (id);

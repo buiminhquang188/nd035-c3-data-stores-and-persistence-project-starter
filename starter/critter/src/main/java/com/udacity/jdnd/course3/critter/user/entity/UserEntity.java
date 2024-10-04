@@ -10,7 +10,7 @@ import java.util.List;
 public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "name")
     private String name;
@@ -33,4 +33,68 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user")
     private List<ScheduleEntity> schedules;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public RoleEntity getRole() {
+        return role;
+    }
+
+    public void setRole(RoleEntity role) {
+        this.role = role;
+    }
+
+    public List<UserSkillEntity> getUserSkills() {
+        return userSkills;
+    }
+
+    public void setUserSkills(List<UserSkillEntity> userSkills) {
+        this.userSkills = userSkills;
+    }
+
+    public List<PetEntity> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<PetEntity> pets) {
+        this.pets = pets;
+    }
+
+    public List<ScheduleEntity> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(List<ScheduleEntity> schedules) {
+        this.schedules = schedules;
+    }
 }
