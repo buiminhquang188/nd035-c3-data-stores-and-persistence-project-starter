@@ -11,4 +11,20 @@ public class IdUserSkill implements Serializable {
 
     @Column(name = "skill_id")
     private Integer skillId;
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Integer getSkillId() {
+        return skillId;
+    }
+
+    public void setSkillId(Integer skillId) {
+        this.skillId = skillId;
+    }
 }

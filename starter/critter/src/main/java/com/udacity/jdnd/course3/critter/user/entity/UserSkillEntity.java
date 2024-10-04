@@ -17,4 +17,28 @@ public class UserSkillEntity {
     @ManyToOne
     @JoinColumn(name = "user_id", updatable = false, insertable = false)
     private UserEntity user;
+
+    public IdUserSkill getId() {
+        return id;
+    }
+
+    public void setId(IdUserSkill id) {
+        this.id = id;
+    }
+
+    public SkillEntity getSkill() {
+        return skill;
+    }
+
+    public void setSkill(SkillEntity skill) {
+        this.skill = skill;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 }

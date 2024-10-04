@@ -17,4 +17,28 @@ public class SkillEntity {
 
     @OneToMany(mappedBy = "skill")
     private List<UserSkillEntity> skillUsers;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public EmployeeSkill getName() {
+        return name;
+    }
+
+    public void setName(EmployeeSkill name) {
+        this.name = name;
+    }
+
+    public List<UserSkillEntity> getSkillUsers() {
+        return skillUsers;
+    }
+
+    public void setSkillUsers(List<UserSkillEntity> skillUsers) {
+        this.skillUsers = skillUsers;
+    }
 }

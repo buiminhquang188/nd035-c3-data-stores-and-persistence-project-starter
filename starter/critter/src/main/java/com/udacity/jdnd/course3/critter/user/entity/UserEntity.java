@@ -5,6 +5,7 @@ import com.udacity.jdnd.course3.critter.schedule.entity.ScheduleEntity;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "user")
 public class UserEntity {
@@ -26,7 +27,7 @@ public class UserEntity {
     private RoleEntity role;
 
     @OneToMany(mappedBy = "user")
-    private List<UserSkillEntity> userSkills;
+    private Set<UserSkillEntity> userSkills;
 
     @OneToMany(mappedBy = "user")
     private List<PetEntity> pets;
@@ -74,11 +75,11 @@ public class UserEntity {
         this.role = role;
     }
 
-    public List<UserSkillEntity> getUserSkills() {
+    public Set<UserSkillEntity> getUserSkills() {
         return userSkills;
     }
 
-    public void setUserSkills(List<UserSkillEntity> userSkills) {
+    public void setUserSkills(Set<UserSkillEntity> userSkills) {
         this.userSkills = userSkills;
     }
 

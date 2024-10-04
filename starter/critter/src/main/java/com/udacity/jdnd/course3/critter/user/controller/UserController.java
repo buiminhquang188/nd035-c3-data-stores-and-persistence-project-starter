@@ -25,16 +25,16 @@ public interface UserController {
     ResponseEntity<List<CustomerDTO>> getAllCustomers();
 
     @GetMapping("/customer/pet/{petId}")
-    ResponseEntity<CustomerDTO> getOwnerByPet(@PathVariable long petId);
+    ResponseEntity<CustomerDTO> getOwnerByPet(@PathVariable Long petId);
 
     @PostMapping("/employee")
     ResponseEntity<EmployeeDTO> saveEmployee(@RequestBody EmployeeDTO employeeDTO);
 
     @PostMapping("/employee/{employeeId}")
-    ResponseEntity<EmployeeDTO> getEmployee(@PathVariable long employeeId);
+    ResponseEntity<EmployeeDTO> getEmployee(@PathVariable Long employeeId);
 
     @PutMapping("/employee/{employeeId}")
-    void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable long employeeId);
+    void setAvailability(@RequestBody Set<DayOfWeek> daysAvailable, @PathVariable Long employeeId);
 
     @GetMapping("/employee/availability")
     ResponseEntity<List<EmployeeDTO>> findEmployeesForService(@RequestBody EmployeeRequestDTO employeeDTO);
