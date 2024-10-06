@@ -55,11 +55,12 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public void setAvailability(Set<DayOfWeek> daysAvailable, Long employeeId) {
-
+        this.userService.setAvailability(daysAvailable, employeeId);
     }
 
     @Override
     public ResponseEntity<List<EmployeeDTO>> findEmployeesForService(EmployeeRequestDTO employeeDTO) {
-        return null;
+        List<EmployeeDTO> employee = this.userService.findEmployeesForService(employeeDTO);
+        return ResponseEntity.ok(employee);
     }
 }

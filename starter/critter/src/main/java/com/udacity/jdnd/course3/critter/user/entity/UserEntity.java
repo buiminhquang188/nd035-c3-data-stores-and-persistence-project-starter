@@ -35,6 +35,9 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<ScheduleEntity> schedules;
 
+    @OneToMany(mappedBy = "user")
+    private Set<UserOperationTimeEntity> userOperationTimes;
+
     public Long getId() {
         return id;
     }
@@ -97,5 +100,13 @@ public class UserEntity {
 
     public void setSchedules(List<ScheduleEntity> schedules) {
         this.schedules = schedules;
+    }
+
+    public Set<UserOperationTimeEntity> getUserOperationTimes() {
+        return userOperationTimes;
+    }
+
+    public void setUserOperationTimes(Set<UserOperationTimeEntity> userOperationTimes) {
+        this.userOperationTimes = userOperationTimes;
     }
 }

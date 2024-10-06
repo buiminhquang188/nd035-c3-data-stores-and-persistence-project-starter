@@ -19,3 +19,4 @@ VALUES (1, 'PETTING'),
        (3, 'FEEDING'),
        (4, 'MEDICATING'),
        (5, 'SHAVING');
+

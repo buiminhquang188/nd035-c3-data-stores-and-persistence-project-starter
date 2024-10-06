@@ -3,7 +3,7 @@ CREATE TABLE pet
     id          BIGINT AUTO_INCREMENT NOT NULL,
     name        VARCHAR(255) NULL,
     age         TINYINT NULL,
-    birth_date  date NULL,
+    birth_date  DATE NULL,
     gender      VARCHAR(255) NULL,
     notes       VARCHAR(255) NULL,
     pet_type_id INT NULL,
@@ -27,8 +27,8 @@ CREATE TABLE `role`
 
 CREATE TABLE schedule
 (
-    start_time datetime NULL,
-    end_time   datetime NULL,
+    start_time DATETIME NULL,
+    end_time   DATETIME NULL,
     pet_id     BIGINT NOT NULL,
     owner_id   BIGINT NOT NULL,
     CONSTRAINT pk_schedule PRIMARY KEY (pet_id, owner_id)
@@ -58,6 +58,20 @@ CREATE TABLE user_skill
     CONSTRAINT pk_user_skill PRIMARY KEY (user_id, skill_id)
 );
 
+CREATE TABLE operation_time
+(
+    id          INT AUTO_INCREMENT NOT NULL,
+    day_of_week VARCHAR(255) NULL,
+    CONSTRAINT pk_operation_time PRIMARY KEY (id)
+);
+
+CREATE TABLE user_operation_time
+(
+    user_id           BIGINT NOT NULL,
+    operation_time_id INT    NOT NULL,
+    CONSTRAINT pk_user_operation_time PRIMARY KEY (user_id, operation_time_id)
+);
+
 ALTER TABLE pet_type
     ADD CONSTRAINT uc_pet_type_type UNIQUE (type);
 
@@ -81,3 +95,9 @@ ALTER TABLE user_skill
 
 ALTER TABLE user_skill
     ADD CONSTRAINT FK_USER_SKILL_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
+
+ALTER TABLE user_operation_time
+    ADD CONSTRAINT FK_USER_OPERATION_TIME_ON_OPERATION_TIME FOREIGN KEY (operation_time_id) REFERENCES operation_time (id);
+
+ALTER TABLE user_operation_time
+    ADD CONSTRAINT FK_USER_OPERATION_TIME_ON_USER FOREIGN KEY (user_id) REFERENCES user (id);
