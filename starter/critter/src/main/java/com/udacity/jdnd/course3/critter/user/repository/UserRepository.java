@@ -24,4 +24,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
            "AND s.name IN :employeeSkills " +
            "AND u.role.name = :roleType")
     List<UserEntity> findAllEmployeeAvailability(DayOfWeek dayOfWeek, Set<EmployeeSkill> employeeSkills, RoleType roleType);
+
+    List<UserEntity> findAllByIdInAndRoleId(List<Long> ids, Integer roleId);
 }

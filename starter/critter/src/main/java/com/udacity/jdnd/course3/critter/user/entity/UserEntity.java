@@ -33,10 +33,10 @@ public class UserEntity {
     private List<PetEntity> pets;
 
     @OneToMany(mappedBy = "user")
-    private List<ScheduleEntity> schedules;
-
-    @OneToMany(mappedBy = "user")
     private Set<UserOperationTimeEntity> userOperationTimes;
+
+    @ManyToMany(mappedBy = "users")
+    private Set<ScheduleEntity> schedules;
 
     public Long getId() {
         return id;
@@ -94,19 +94,19 @@ public class UserEntity {
         this.pets = pets;
     }
 
-    public List<ScheduleEntity> getSchedules() {
-        return schedules;
-    }
-
-    public void setSchedules(List<ScheduleEntity> schedules) {
-        this.schedules = schedules;
-    }
-
     public Set<UserOperationTimeEntity> getUserOperationTimes() {
         return userOperationTimes;
     }
 
     public void setUserOperationTimes(Set<UserOperationTimeEntity> userOperationTimes) {
         this.userOperationTimes = userOperationTimes;
+    }
+
+    public Set<ScheduleEntity> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<ScheduleEntity> schedules) {
+        this.schedules = schedules;
     }
 }

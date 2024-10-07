@@ -6,7 +6,7 @@ import com.udacity.jdnd.course3.critter.user.entity.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity(name = "pet")
 public class PetEntity {
@@ -38,8 +38,8 @@ public class PetEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "pet")
-    private List<ScheduleEntity> schedules;
+    @ManyToMany(mappedBy = "pets")
+    private Set<ScheduleEntity> schedules;
 
     public Long getId() {
         return id;
@@ -105,11 +105,11 @@ public class PetEntity {
         this.user = user;
     }
 
-    public List<ScheduleEntity> getSchedules() {
+    public Set<ScheduleEntity> getSchedules() {
         return schedules;
     }
 
-    public void setSchedules(List<ScheduleEntity> schedules) {
+    public void setSchedules(Set<ScheduleEntity> schedules) {
         this.schedules = schedules;
     }
 }

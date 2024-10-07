@@ -1,9 +1,11 @@
 package com.udacity.jdnd.course3.critter.user.entity;
 
+import com.udacity.jdnd.course3.critter.schedule.entity.ScheduleEntity;
 import com.udacity.jdnd.course3.critter.user.enums.EmployeeSkill;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "skill")
 public class SkillEntity {
@@ -17,6 +19,9 @@ public class SkillEntity {
 
     @OneToMany(mappedBy = "skill")
     private List<UserSkillEntity> skillUsers;
+
+    @ManyToMany(mappedBy = "skills")
+    private Set<ScheduleEntity> schedules;
 
     public Integer getId() {
         return id;
@@ -40,5 +45,13 @@ public class SkillEntity {
 
     public void setSkillUsers(List<UserSkillEntity> skillUsers) {
         this.skillUsers = skillUsers;
+    }
+
+    public Set<ScheduleEntity> getSchedules() {
+        return schedules;
+    }
+
+    public void setSchedules(Set<ScheduleEntity> schedules) {
+        this.schedules = schedules;
     }
 }
