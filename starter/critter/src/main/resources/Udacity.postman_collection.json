@@ -101,7 +101,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "34"
+											"value": "1"
 										}
 									]
 								}
@@ -127,7 +127,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "4"
+											"value": "1"
 										}
 									]
 								}
@@ -266,7 +266,25 @@
 										}
 									}
 								},
-								"url": "http://localhost:8082/user/employee/4"
+								"url": {
+									"raw": "http://localhost:8082/user/employee/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"user",
+										"employee",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2"
+										}
+									]
+								}
 							},
 							"response": []
 						},
@@ -379,7 +397,25 @@
 										}
 									}
 								},
-								"url": "http://localhost:8082/schedule/customer/5"
+								"url": {
+									"raw": "http://localhost:8082/schedule/customer/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8082",
+									"path": [
+										"schedule",
+										"customer",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
 							},
 							"response": []
 						},
@@ -396,7 +432,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"employeeIds\": [\n        2,\n        3,\n        4\n    ],\n    \"petIds\": [\n        1,\n        2,\n        3\n    ],\n    \"date\": \"2019-12-22\",\n    \"activities\": [\n        \"SHAVING\"\n    ]\n}",
+									"raw": "{\n    \"employeeIds\": [\n        2,\n        3\n    ],\n    \"petIds\": [\n        1,\n        2\n    ],\n    \"date\": \"2019-12-17\",\n    \"activities\": [\n        \"PETTING\",\n        \"FEEDING\"\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
