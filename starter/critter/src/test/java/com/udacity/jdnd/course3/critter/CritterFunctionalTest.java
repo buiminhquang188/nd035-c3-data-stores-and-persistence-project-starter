@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
@@ -28,7 +29,7 @@ import java.util.stream.IntStream;
 
 /**
  * This is a set of functional tests to validate the basic capabilities desired for this application.
- * Students will need to configure the application to run these tests by adding application.properties file
+ * Students will need to configure the application to run these tests by adding application-test.properties file
  * to the test/resources directory that specifies the datasource. It can run using an in-memory H2 instance
  * and should not try to re-use the same datasource used by the rest of the app.
  * <p>
@@ -36,6 +37,7 @@ import java.util.stream.IntStream;
  */
 @Transactional
 @SpringBootTest(classes = CritterApplication.class)
+@TestPropertySource("classpath:application-test.properties")
 public class CritterFunctionalTest {
 
     @Autowired
@@ -77,6 +79,7 @@ public class CritterFunctionalTest {
         Assertions.assertTrue(retrievedEmployee.getBody()
                                       .getId() > 0);
     }
+
 
     @Test
     public void testAddPetsToCustomer() {
@@ -217,7 +220,7 @@ public class CritterFunctionalTest {
         Set<Long> eIds1expected = Sets.newHashSet(emp1n.getBody()
                 .getId(), emp2n.getBody()
                 .getId());
-        Assertions.assertEquals(eIds1, eIds1expected);
+        Assertions.assertEquals(eIds1expected, eIds1);
 
         //make a request that matches only employee 3
         EmployeeRequestDTO er2 = new EmployeeRequestDTO();
@@ -231,7 +234,7 @@ public class CritterFunctionalTest {
                 .collect(Collectors.toSet());
         Set<Long> eIds2expected = Sets.newHashSet(emp3n.getBody()
                 .getId());
-        Assertions.assertEquals(eIds2, eIds2expected);
+        Assertions.assertEquals(eIds2expected, eIds2);
     }
 
     @Test

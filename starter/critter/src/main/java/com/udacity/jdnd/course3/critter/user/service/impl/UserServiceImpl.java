@@ -102,9 +102,30 @@ public class UserServiceImpl implements UserService {
                 })
                 .collect(Collectors.toSet());
 
-        this.userSkillRepository.saveAll(userSkills);
+        if (employeeDTO.getDaysAvailable() != null) {
+            Set<UserOperationTimeEntity> userOperationTimes = this.operationTimeRepository.findByIdIn(
+                            employeeDTO.getDaysAvailable()
+                                    .stream()
+                                    .map(dayOfWeek -> dayOfWeek.getValue())
+                                    .collect(Collectors.toSet())
+                    )
+                    .stream()
+                    .map(operationTimeEntity -> {
+                        IdUserOperationTime idUserOperationTime = new IdUserOperationTime();
+                        idUserOperationTime.setOperationTimeId(operationTimeEntity.getId());
+                        idUserOperationTime.setUserId(savedEmployee.getId());
+
+                        UserOperationTimeEntity userOperationTime = new UserOperationTimeEntity();
+                        userOperationTime.setIdUserOperationTime(idUserOperationTime);
+                        return userOperationTime;
+                    })
+                    .collect(Collectors.toSet());
+            this.userOperationTimeRepository.saveAll(userOperationTimes);
+            employee.setUserOperationTimes(userOperationTimes);
+        }
 
         employee.setUserSkills(userSkills);
+        this.userSkillRepository.saveAll(userSkills);
         return this.userMapper.toEmployeeDTO(employee);
     }
 
@@ -147,7 +168,9 @@ public class UserServiceImpl implements UserService {
     public List<EmployeeDTO> findEmployeesForService(EmployeeRequestDTO employeeDTO) {
         DayOfWeek dayOfWeek = employeeDTO.getDate()
                 .getDayOfWeek();
-        List<UserEntity> users = this.userRepository.findAllEmployeeAvailability(dayOfWeek, employeeDTO.getSkills(), RoleType.EMPLOYEE);
+
+        List<UserEntity> users = this.userRepository.findAllEmployeeAvailability(dayOfWeek, employeeDTO.getSkills(), RoleType.EMPLOYEE, employeeDTO.getSkills()
+                .size());
 
         return this.userMapper.toEmployeeDTOs(users);
     }

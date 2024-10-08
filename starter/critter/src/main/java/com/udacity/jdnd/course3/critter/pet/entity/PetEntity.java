@@ -6,6 +6,7 @@ import com.udacity.jdnd.course3.critter.user.entity.UserEntity;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity(name = "pet")
@@ -106,6 +107,9 @@ public class PetEntity {
     }
 
     public Set<ScheduleEntity> getSchedules() {
+        if (this.schedules == null) {
+            this.schedules = new HashSet<>();
+        }
         return schedules;
     }
 

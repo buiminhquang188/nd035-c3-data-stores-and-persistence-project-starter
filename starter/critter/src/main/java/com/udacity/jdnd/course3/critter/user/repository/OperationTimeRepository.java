@@ -11,4 +11,6 @@ public interface OperationTimeRepository extends JpaRepository<OperationTimeEnti
     Set<OperationTimeEntity> findByDayOfWeekIn(Set<DayOfWeek> dayOfWeeks);
 
     Optional<OperationTimeEntity> findByDayOfWeek(DayOfWeek dayOfWeek);
+
+    Set<OperationTimeEntity> findByIdIn(Set<Integer> ids);
 }

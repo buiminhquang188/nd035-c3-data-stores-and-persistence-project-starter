@@ -12,6 +12,7 @@ import com.udacity.jdnd.course3.critter.user.entity.UserEntity;
 import com.udacity.jdnd.course3.critter.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +44,7 @@ public class PetServiceImpl implements PetService {
         );
     }
 
+    @Transactional
     @Override
     public PetDTO savePet(PetDTO petDTO) {
         PetEntity pet = new PetEntity();
@@ -52,12 +54,16 @@ public class PetServiceImpl implements PetService {
         pet.setType(petTypeEntity.orElseThrow(() -> new NotFoundException("Pet type not found")));
 
         Optional<UserEntity> userEntity = this.userRepository.findById(petDTO.getOwnerId());
-        pet.setUser(userEntity.orElseThrow(() -> new NotFoundException("Owner not found")));
+        UserEntity user = userEntity.orElseThrow(() -> new NotFoundException("Owner not found"));
+        user.addPet(pet);
+
+        pet.setUser(user);
         pet.setName(petDTO.getName());
         pet.setBirthDate(petDTO.getBirthDate());
         pet.setNotes(petDTO.getNotes());
 
         PetEntity savedPet = this.petRepository.save(pet);
+
         return this.petMapper.entityToDTO(savedPet);
     }
 

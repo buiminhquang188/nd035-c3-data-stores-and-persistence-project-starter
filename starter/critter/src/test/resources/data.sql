@@ -1,6 +1,3 @@
-USE
-critter_chronology;
-
 INSERT INTO pet_type(id, type)
 VALUES (1, 'CAT'),
        (2, 'DOG'),

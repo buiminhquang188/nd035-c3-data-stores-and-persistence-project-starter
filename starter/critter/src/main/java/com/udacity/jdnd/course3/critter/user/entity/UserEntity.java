@@ -4,6 +4,7 @@ import com.udacity.jdnd.course3.critter.pet.entity.PetEntity;
 import com.udacity.jdnd.course3.critter.schedule.entity.ScheduleEntity;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -108,5 +109,12 @@ public class UserEntity {
 
     public void setSchedules(Set<ScheduleEntity> schedules) {
         this.schedules = schedules;
+    }
+
+    public void addPet(PetEntity pet) {
+        if (this.pets == null) {
+            this.pets = new ArrayList<>();
+        }
+        this.pets.add(pet);
     }
 }

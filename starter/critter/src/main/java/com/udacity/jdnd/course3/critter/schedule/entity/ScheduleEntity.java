@@ -77,9 +77,12 @@ public class ScheduleEntity {
     }
 
     public void addUser(UserEntity user) {
-        this.users.add(user);
+        if (user.getSchedules() == null) {
+            user.setSchedules(new HashSet<>());
+        }
         user.getSchedules()
                 .add(this);
+        this.users.add(user);
     }
 
     public void removeUser(UserEntity user) {

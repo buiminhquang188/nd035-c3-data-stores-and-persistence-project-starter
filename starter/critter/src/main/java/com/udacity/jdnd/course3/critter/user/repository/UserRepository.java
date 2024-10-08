@@ -22,8 +22,10 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
            "LEFT JOIN skill s ON s.id = uk.id.skillId " +
            "WHERE uot.operationTime.dayOfWeek = :dayOfWeek " +
            "AND s.name IN :employeeSkills " +
-           "AND u.role.name = :roleType")
-    List<UserEntity> findAllEmployeeAvailability(DayOfWeek dayOfWeek, Set<EmployeeSkill> employeeSkills, RoleType roleType);
+           "AND u.role.name = :roleType " +
+           "GROUP BY u.id " +
+           "HAVING COUNT(DISTINCT s.name) = :employeeSkillsLength")
+    List<UserEntity> findAllEmployeeAvailability(DayOfWeek dayOfWeek, Set<EmployeeSkill> employeeSkills, RoleType roleType, long employeeSkillsLength);
 
     List<UserEntity> findAllByIdInAndRoleId(List<Long> ids, Integer roleId);
 }

@@ -4,11 +4,11 @@ import com.udacity.jdnd.course3.critter.pet.entity.PetEntity;
 import com.udacity.jdnd.course3.critter.user.dto.CustomerDTO;
 import com.udacity.jdnd.course3.critter.user.dto.EmployeeDTO;
 import com.udacity.jdnd.course3.critter.user.entity.UserEntity;
+import com.udacity.jdnd.course3.critter.user.entity.UserOperationTimeEntity;
 import com.udacity.jdnd.course3.critter.user.entity.UserSkillEntity;
 import com.udacity.jdnd.course3.critter.user.entity.key.IdUserOperationTime;
 import com.udacity.jdnd.course3.critter.user.entity.key.IdUserSkill;
 import com.udacity.jdnd.course3.critter.user.enums.EmployeeSkill;
-import com.udacity.jdnd.course3.critter.user.repository.UserSkillRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.DayOfWeek;
@@ -17,12 +17,6 @@ import java.util.stream.Collectors;
 
 @Component
 public class UserMapper {
-    private final UserSkillRepository userSkillRepository;
-
-    public UserMapper(UserSkillRepository userSkillRepository) {
-        this.userSkillRepository = userSkillRepository;
-    }
-
     public CustomerDTO toCustomerDTO(UserEntity user) {
         CustomerDTO customerDTO = new CustomerDTO();
 
@@ -57,8 +51,18 @@ public class UserMapper {
         employeeDTO.setSkills(user.getUserSkills()
                 .stream()
                 .map(UserSkillEntity::getId)
-                .map(idUserSkill -> EmployeeSkill.values()[idUserSkill.getSkillId()])
+                .map(idUserSkill -> EmployeeSkill.values()[idUserSkill.getSkillId() - 1])
                 .collect(Collectors.toSet()));
+
+        if (user.getUserOperationTimes() != null) {
+            employeeDTO.setDaysAvailable(
+                    user.getUserOperationTimes()
+                            .stream()
+                            .map(UserOperationTimeEntity::getIdUserOperationTime)
+                            .map(idUserOperationTime -> DayOfWeek.of(idUserOperationTime.getOperationTimeId()))
+                            .collect(Collectors.toSet())
+            );
+        }
 
         return employeeDTO;
     }
@@ -79,13 +83,15 @@ public class UserMapper {
                                 return EmployeeSkill.values()[idUserSkill.getSkillId() - 1];
                             })
                             .collect(Collectors.toSet()));
-                    employeeDTO.setDaysAvailable(user.getUserOperationTimes()
-                            .stream()
-                            .map(userSkill -> {
-                                IdUserOperationTime idUserSkill = userSkill.getIdUserOperationTime();
-                                return DayOfWeek.of(idUserSkill.getOperationTimeId());
-                            })
-                            .collect(Collectors.toSet()));
+                    if (user.getUserOperationTimes() != null) {
+                        employeeDTO.setDaysAvailable(user.getUserOperationTimes()
+                                .stream()
+                                .map(userSkill -> {
+                                    IdUserOperationTime idUserSkill = userSkill.getIdUserOperationTime();
+                                    return DayOfWeek.of(idUserSkill.getOperationTimeId());
+                                })
+                                .collect(Collectors.toSet()));
+                    }
                     return employeeDTO;
                 })
                 .collect(Collectors.toList());
