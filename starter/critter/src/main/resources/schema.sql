@@ -1,3 +1,7 @@
+CREATE DATABASE IF NOT EXISTS critter;
+
+USE critter;
+
 CREATE TABLE operation_time
 (
     id          INT AUTO_INCREMENT NOT NULL,
